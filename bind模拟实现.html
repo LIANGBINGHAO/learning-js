@@ -8,7 +8,72 @@
 </head>
 
 <body>
+    <!-- <script>
+        // 第一版
+        Function.prototype.bind2 = function (context) {
+            var self = this
+            return function () {
+                return self.apply(context)
+            }
+        }
+        // 测试
+        var foo = {
+            value: 2
+        }
+        var bar = function () {
+            console.log(this.value);
+        }
+        var bf = bar.bind2(foo);
+        bf();// 2
+    </script> -->
+    <!-- <script>
+        // 第二版
+        Function.prototype.bind2 = function (context) {
+            var self = this
+            var args = [...arguments].slice(1)
+            return function () {
+                return self.apply(context, [...args, ...arguments])
+            }
+        }
+        // 测试
+        var foo = {
+            value: 2
+        }
+        var bar = function (age, length) {
+            console.log(this.value, age, length);
+        }
+        var bf = bar.bind2(foo, '66');
+        bf(99);// 2
+    </script> -->
+    <script>
+        // 第三版
+        Function.prototype.bind2 = function (context) {
+            var self = this
+            var args = [...arguments].slice(1)
 
+            var resFn = function () {
+                // 当作为构造函数时，this 指向实例，此时结果为 true，将绑定函数的 this 指向该实例，可以让实力获得来自绑定函数的值
+                return self.apply(this instanceof resFn ? this : context, [...args, ...arguments])
+            }
+            // 修改返回函数的原型为绑定函数的原型，实例就可以继承绑定函数原型中的值
+            resFn.prototype = this.prototype
+            return resFn
+        }
+        // 测试
+        var foo = {
+            value: 2
+        }
+        var bar = function (age, length) {
+            this.habit = 'shopping';
+            console.log(this.value, age, length);
+        }
+        bar.prototype.friend = 'kevin';
+        var bf = bar.bind2(foo, '66');
+        bf(99);// 2
+        var obj = new bf();
+        console.log(obj.habit); // "shopping"
+        console.log(obj.friend); // "kevin"
+    </script>
 </body>
 
 </html>
