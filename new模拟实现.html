@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function Otaku(name, age) {
+            this.name = name;
+            this.age = age;
+            //this.habit = habit;
+        }
+        Otaku.prototype.strength = 60;
+        Otaku.prototype.sayName = function () {
+            console.log(`I am ${this.name}`)
+        }
+        var person = new Otaku('liyi', 30);
+        console.log(person.name);
+        console.log(person.age);
+        //console.log(person.habit);
+        console.log(person.strength);
+        person.sayName();
+    </script>
+    <script>
+        // 第一版
+        // function objectFactory() {
+        //     var obj = new Object()
+        //     var Constructor = [].shift.call(arguments)
+        //     obj.__proto__ = Constructor.prototype
+        //     Constructor.apply(obj, arguments)
+        //     return obj
+        // }
+        function objectFactory() {
+            var obj = new Object();
+            var Constructor = [].shift.call(arguments);
+            obj.__proto__ = Constructor.protoytpe;
+            Constructor.apply(obj, arguments);
+            return obj;
+        }
+        function test() {
+            var gg = [].shift.call(arguments);
+            console.log(gg, 'gg')
+            return gg;
+        }
+        var te = [1, 2, 3, 4];
+        test('ff', te);
+
+    </script>
+    <script>
+        // 第一版
+        function create() {
+            // 创建一个空的对象
+            var obj = new Object(),
+                // 获得构造函数，arguments中去除第一个参数
+                Con = [].shift.call(arguments);
+            // 链接到原型，obj 可以访问到构造函数原型中的属性
+            obj.__proto__ = Con.prototype;
+            // 绑定 this 实现继承，obj 可以访问到构造函数中的属性
+            Con.apply(obj, arguments);
+            // 返回对象
+            return obj;
+        };
+        // 测试用例
+        function Car(color) {
+            this.color = color;
+        }
+        Car.prototype.start = function () {
+            console.log(this.color + " car start");
+        }
+        var car = create(Car, "black");
+        car.color;
+        // black
+        car.start();
+// black car start
+    </script>
+    <script>
+        // 第二版
+        // function objectFactory() {
+        //     var obj = new Object()
+        //     var Constructor = [].shift.call(arguments)
+        //     obj.__proto__ = Constructor.prototype
+
+        //     var res = Constructor.apply(obj, arguments)
+        //     return typeof res === 'object' && res ? res : obj
+        // }
+        function objectFactory() {
+            var obj = new Object();
+            var Constructor = [].shift.call(arguments);
+            obj.__proto__ = Constructor.prototype;
+            var res = Constructor.apply(obj, arguments);
+            return typeof res === 'object' && res ? res : obj;
+        }
+    </script>
+</body>
+
+</html>

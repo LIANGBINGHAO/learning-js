@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var foo = {
+            value: 1
+        }
+        var bar = function () {
+            console.log(this.value)
+        }
+        bar.call(foo)
+    </script>
+    <script>
+        var foo = {
+            value: 2,
+            bar: function () {
+                console.log(this.value)
+            }
+        }
+        foo.bar();
+    </script>
+    <script>
+        //第一版
+        Function.prototype.call2 = function (context) {
+            context.fn = this;
+            context.fn();
+            delete context.fn;
+        }
+        //测试
+        var foo = {
+            value: 3
+        }
+        var bar = function () {
+            console.log(this.value)
+        }
+        bar.call2(foo)
+    </script>
+    <script>
+        //第二版
+        Function.prototype.call2 = function (context) {
+            const args = [...arguments].slice(1);
+            context.fn = this;
+            context.fn(...args);
+            delete context.fn;
+        }
+        //测试
+        var foo = {
+            value: 4
+        }
+        var bar = function (age) {
+            console.log(this.value, age)
+        }
+        bar.call2(foo, '55')
+    </script>
+    <script>
+        // 第三版
+        // Function.prototype.call2 = function (context = window) {
+        //     const args = [...arguments].slice(1)
+        //     context.fn = this
+        //     const result = context.fn(...args)
+        //     delete context.fn
+        //     return result
+        // }
+        Function.prototype.call2 = function (context = window) {
+            const args = [...arguments].slice(1);
+            context.fn = this;
+            const result = context.fn(...args);
+            delete context.fn;
+            return result;
+        }
+    </script>
+    <script>
+        //apply模拟实现
+        Function.prototype.apply2 = function (context = window) {
+            const args = arguments[1];
+            context.fn = this;
+            const result = args ? context.fn(...args) : context.fn();
+            delete context.fn;
+            return result;
+        }
+    </script>
+    <script>
+        var args = [1, 2, 3, 4];
+        var args2 = [5, 6, 7]
+        console.log(...args, [...args, ...args2]);
+    </script>
+</body>
+
+</html>
