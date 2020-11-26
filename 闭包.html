@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 定义
+        // MDN 对闭包的定义为：
+
+        // 闭包是指那些能够访问自由变量的函数。
+
+        // 什么是自由变量：
+
+        // 自由变量是指在函数中使用，但既不是函数参数，也不是函数局部变量的变量。
+
+        // 所以
+
+        // 闭包 = 函数 + 函数能能够访问的自由变量
+
+        // 举个例子
+
+        var a = 1
+
+        function foo() {
+            console.log(a)
+        }
+
+        foo()
+        // foo 函数可以访问变量a，但是 a 既不是 foo 的局部变量，也不是 foo 的参数，所以 a 是自由变量，所以函数 foo + foo 访问的自由变量 a就形成了闭包。
+
+        // 在 ES 规范中，闭包指的是：
+
+        // 从理论上说：所有的函数。因为它们都在创建的时候就将上层上下文的数据保存起来。哪怕是简单的全局变量也是如此，因为函数中访问全局变量就相当于是在访问自由变量，这时候使用最外层的作用域。
+        // 从实践角度：以下的函数才算闭包：
+        // 即使创建它的上下文已经销毁。它仍然存在（比如，内部函数从父函数中返回）
+        // 代码中引用了自由变量
+    </script>
+    <script>
+        // 分析
+        // 举个例子：
+
+        var scope = 'global scope';
+        function checkScope() {
+            var scope = 'local scope';
+            return function () {
+                return scope;
+            }
+        }
+
+        var foo = checkScope();
+        foo();
+        console.log(foo(), 'foo')
+        // 首先分析这段代码执行上下文栈和执行上下文的变化情况：
+
+        // 进入全局代码，创建全局执行上下文，全局上下文压入执行上下文栈
+        // 全局执行上下文初始化
+        // 执行 checkScope 函数，创建函数执行上下文，函数执行上下文被压入执行上下文栈
+        // checkScope 执行上下文初始化，创建变量对象、作用域链和 this 等
+        // checkScope 执行完毕，上下文从执行上下文栈中弹出
+        // 执行回调函数，创建函数执行上下文，压入执行上下文栈
+        // 初始化函数执行上下文，创建变量对象、作用域链和 this
+        // 函数执行完毕，上下文从执行上下文栈中弹出
+        // 为什么在执行上下文已经弹出执行栈，子函数还可以访问到父函数的变量？
+
+        // 这是因为在创建子函数的时候，子函数的执行上下文维护了一个作用域链：
+
+        // Context = {
+        //     Scope: [AO, checkScopeContext.AO, globalContext.VO]
+        // }
+        // 就是这个作用域链，让即使 checkScope 已经从执行上下文栈中弹出也可以访问到 checkScope 的变量
+    </script>
+    <script>
+        // 必刷题
+        var data = []
+        for (var i = 0; i < 3; i++) {
+            data[i] = function () {
+                console.log(i)
+            }
+        }
+        console.log(i, data, 'data')
+        data[0]()
+        data[1]()
+        data[2]()
+        // 答案是都输出 3
+
+        // 在执行 data[0]() 之前，此时的全局执行上下文为：
+
+        // globalContext = {
+        //     VO: {
+        //         data: [fun, fun, fun],
+        //         i: 3
+        //     }
+        // }
+        // 当执行 data[0]() 的时候，此时 data[0]() 函数的作用域链为：
+
+        // data[0]Context = {
+        //     Scope: [AO, globalContext.VO]
+        // }
+        // 因为函数内部没有属性 i，所以从全局对象里面查找，所以打印出来是 3。
+
+        // 所以我们尝试改成闭包：
+
+        var data = []
+        for (var i = 0; i < 3; i++) {
+            data[i] = (function (i) {
+                return function () {
+                    console.log(i)
+                }
+            }(i))
+        }
+        data[0]()
+        data[1]()
+        data[2]()
+        // 当执行到 data[0]() 之前，此时全局上下文的 VO 仍和改造前一样，没有发生改变。
+
+        // 但是，函数作用域链发生了改变，data[0]() 的作用域链修改为：
+
+        // data[0]Context = {
+        //     Scope: [AO, 匿名函数Context.AO, globalContext.VO]
+        // }
+        // 而匿名函数执行上下文的 AO 为：
+
+        // 匿名函数Context = {
+        //     AO: {
+        //         arguments: {
+        //             0: 0,
+        //             length: 1
+        //         },
+        //         i: 0
+        //     }
+        // }
+        // data[0]() 沿着作用域链向上查找，会在匿名函数中找到 i。
+
+        //特点
+
+        // 让外部访问函数内部变量成为可能；
+
+        // 局部变量会常驻在内存中；
+
+        // 可以避免使用全局变量，防止全局变量污染；
+
+        // 会造成内存泄漏（有一块内存空间被长期占用，而不被释放）
+        function f1() {
+
+            var n = 999;
+
+            nAdd = function () { n += 1 }
+
+            function f2() {
+                console.log(n);
+            }
+
+            return f2;
+
+        }
+
+        var result = f1();
+
+        result(); // 999
+
+        nAdd();
+
+        result(); // 1000
+
+
+        var name = "The Window";
+
+        var object = {
+            name: "My Object",
+
+            getNameFunc: function () {
+                return (function () {
+                    console.log(this)
+                    return this.name;
+                }).call(this);
+
+            }
+
+        };
+
+        console.log(object.getNameFunc());
+    </script>
+    <script>
+        var data = []
+        for (var i = 0; i < 3; i++) {
+            console.log(i, 'i')
+            data[i] = (function (i) {
+                return function () {
+                    console.log(i)
+                }
+            })(i)
+        }
+        data[0]();
+    </script>
+</body>
+
+</html>
