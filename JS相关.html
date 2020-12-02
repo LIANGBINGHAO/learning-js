@@ -106,6 +106,212 @@
         // 无法实现多继承，因为原型一次只能被一个实例更改
         // 来自原型对象的所有属性被所有实例共享
         // 创建子类实例时，无法向父构造函数传参
+
+        // 2.构造继承
+        // 复制父类的实例属性给子类
+        function Son2(name) {
+            Father.call(this, 'Son2 props')
+            this.name = name;
+        }
+        const son2 = new Son2('son2');
+        console.log(son2, 'son2');
+        son2.sayName();
+        //son2.sayAge();报错 无法继承父类原型
+        console.log(son2 instanceof Son2);
+        console.log(son2 instanceof Father)
+        // 优点：
+
+        // 解决了原型链继承中实例共享父类引用属性的问题
+        // 创建子类实例时，可以向父类传参
+        // 可以实现多继承（call 多个父类对象）
+        // 缺点：
+
+        // 实例并不是父类的实例，只是子类的实例
+        // 只能继承父类实例属性和方法，不能继承原型属性和方法
+        // 无法实现函数复用，每个子类都有父类实例函数的副本，影响性能
+
+
+        //3.组合继承
+        //将原型链和构造函数组合一起，使用原型链实现对原型属性和方法的继承，使用构造函数实现实例属性继承
+        function Son3(name) {
+            Father.call(this, 'Son3 props');
+            this.name = name;
+        }
+        Son3.prototype = new Father();
+        const son3 = new Son3('son3');
+        console.log(son3, 'son3');
+        son3.sayName();
+        son3.sayAge();
+        console.log(son3 instanceof Son3);
+        console.log(son3 instanceof Father);
+        console.log(son3.constructor === Son3);
+        console.log(son3.constructor === Father);
+        // 优点：
+
+        // 弥补了构造继承的缺点，可以同时继承实例属性方法和原型属性方法
+        // 既是子类的实例，也是父类的实例
+        // 可以向父类传参
+        // 函数可以复用
+        // 缺点：
+
+        // 调用了两次父类构造函数，生成了两份实例
+        // 构造函数（constructor）指向问题
+
+
+        //4.实例继承
+        //为父类实例添加新特性，作为子类实例返回
+        function Son4(name) {
+            const father = new Father('son4 props');
+            father.name = name;
+            return father;
+        }
+        const son4 = new Son4('son4');
+        console.log(son4, 'son4');
+        son4.sayName();
+        son4.sayAge();
+        console.log(son4 instanceof Son4);
+        console.log(son4 instanceof Father);
+        console.log(son4.constructor === Son4);
+        console.log(son4.constructor === Father);
+        // 优点：
+
+        // 不限制调用方式
+        // 缺点：
+
+        // 实例是父类的实例，不是子类的实例
+        // 不支持多继承
+
+        //5.拷贝继承
+        //对父类实例中的方法和属性拷贝给子类的原型
+        function Son5(name) {
+            const father = new Father('son5 props');
+            console.log(father, 'father')
+            for (let i in father) {
+                Son5.prototype[i] = father[i]
+            }
+            Son5.prototype.name = name;
+        }
+        const son5 = new Son5('son5');
+        console.log(son5, 'son5')
+        son5.sayAge() // 19
+        son5.sayName() // son
+        console.log(son5 instanceof Son5);
+        console.log(son5 instanceof Father);
+        console.log(son5.constructor === Son5);
+        console.log(son5.constructor === Father);
+        // 优点：
+
+        // 支持多继承
+        // 缺点：
+
+        // 效率低，性能差，内存占用高（因为需要拷贝父类属性）
+        // 无法获取父类不可枚举的方法
+
+
+        //6.寄生组合继承
+        //通过寄生方式，砍掉父类的实例属性，避免组合继承生成两份实例的缺点
+        function Son6(name) {
+            Father.call(this, 'son6 props');
+            this.name = name;
+        }
+
+
+        console.log(Father, 'dd')
+        console.log(Father.prototype, 'gg')
+        console.log(new Father(), 'new')
+        console.log(Father.prototype === new Father())
+        //Son6.prototype = new Father();
+        Son6.prototype = Object.create(Father.prototype);
+        Son6.prototype.constructor = Son6;
+        const son6 = new Son6('son6');
+        console.log(son6, 'son6')
+        son6.sayName();
+        son6.sayAge();
+        console.log(son6 instanceof Son6);
+        console.log(son6 instanceof Father);
+        console.log(son6.constructor === Son6);
+        console.log(son6.constructor === Father);
+
+        // 优点：
+
+        // 比较完美（js 实现继承首选方式）
+        // 缺点：
+
+        // 实现方式较为复杂
+    </script>
+    <script>
+        // 防抖与节流
+        // 防抖
+        // 动作停止后的时间超过设定的时间时执行一次函数。
+
+        // 注意：这里的动作停止表示你停止触发函数，从这个时间点开始计算，当间隔时间等于你设定的时间，才会执行里面的回调函数
+        function debounce(fn, delay) {
+            let timer = null
+            return function () {
+                if (timer) window.clearTimeout(timer)
+                timer = window.setTimeout(function () {
+                    fn()
+                }, delay)
+            }
+        }
+
+        window.addEventListener('click', debounce(() => {
+            console.log('click')
+        }, 1000))
+
+        // 节流
+        // 一定时间内执行的操作只会执行一次，也就是预先设定一个执行周期，当调用动作的即刻大于等于执行周期时执行该动作，然后进入下一个周期
+
+        function throttle(fn, delay) {
+            let flag = true
+            return function () {
+                if (!flag) return
+                flag = false
+                setTimeout(function () {
+                    fn()
+                    flag = true
+                }, delay)
+            }
+        }
+
+
+        // 运行机制
+        // 单线程
+        // 作为浏览器的脚本语言，因此 JS 注定是单线程
+
+        // 单线程同一时间只能做一件事，为了解决这个问题，JS 的设计者将所有任务分为两种：同步任务（synchronous）和异步任务（asynchronous）
+
+        // 同步任务和异步任务
+        // 同步任务：在主线程上排队执行的任务，只有前一个任务执行完毕，才能执行下一个任务
+
+        // 异步任务：不进入主线程，而是进入任务队列（task queue），只有任务队列通知主线程，该任务才会进入主线程执行
+
+        // 任务队列
+        // 任务队列
+
+        // 异步任务会先到事件列表注册函数，如果事件列表中的事件触发了，会将这个函数移入任务队列中（DOM 操作对应 DOM 事件，资源加载操作对应加载事件，定时器操作可以看作一个‘时间到了’的事件）
+
+        // 宏任务和微任务
+        // 宏任务和微任务
+
+        // 宏任务
+
+        // 整体代码 script，setTimeout，setInterval，setImmediate（仅在 Node 环境），I / O，requestAnimationFrame（仅在浏览器环境）
+
+        // 微任务
+
+        // Promise.then | catch | finally，process.nextTick（仅在 Node 环境），MutationObserver（仅在浏览器环境）
+
+        // 事件循环（Event Loop）
+        // 事件循环示意图
+
+        // 整体 script 作为第一个宏任务开始执行，此时会把所有代码分为“同步任务”和“异步任务”两部分
+        // 同步任务直接进入主线程依次执行
+        // 异步任务再分为宏任务和微任务
+        // 宏任务进入事件列表中，并在里面注册回调函数，每当指定的事件完成时，事件列表会将这个函数移到任务队列中
+        // 微任务也会进入另一个事件列表，并执行第 4 步一样的操作
+        // 当主线程的任务执行完毕，主线程为空，此时会检查微任务的任务队列，如果有任务，就全部执行，没有就执行下一个宏任务
+        // 上述过程不断重复，这就是事件循环（Event Loop）
     </script>
 </body>
 

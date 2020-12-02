@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 面试题：说说事件循环机制（满分答案）
+        // 答题大纲
+        // 先说基本知识点：宏任务哪些，微任务哪些
+        // 说说事件循环机制过程，边说边画
+        // 说说 async / await 执行顺序注意，可以把 chrome 的优化，做法其实是违反了规范的，V8 团队的 PR 这些自信点说出来，会显得很好学，理解的很详细，很透彻
+        // 把 node 的事件循环也说一下，重复 1、2、3点，并且着重说 node v11 前后事件循环的变动
+        // 浏览器中的事件循环
+        // JavaScript代码的执行过程中，除了依靠函数调用栈来搞定函数的执行顺序以外，还依靠任务队列（task queue）来搞定另外一些代码的执行。整个执行过程，我们称为事件循环过程。一个线程中，事件循环是唯一的，但是任务队列可以拥有多个。任务队列又分为 macro - task（宏任务）和 micro - task（微任务），在最新标准中，他们分别被称为 tasks 和 jobs。
+
+        // macro - task（宏任务） 大概包括：
+
+        // script（整体代码）
+        // setTimeout
+        // setInterval
+        // setImmediate
+        // I / O
+        // UI render
+        // micro - task（微任务） 大概包括：
+
+        // process.nextTick
+        // Promise.then
+        // async / await （等价于 Promise.then）
+        // MutationObserver（HTML5 新特性）
+        // 总体结论就是：
+
+        // 执行宏任务
+        // 然后执行宏任务产生的微任务
+        // 若微任务在执行过程中产生了新的微任务，则继续执行微任务
+        // 微任务执行完毕，再回到宏任务中进行下一轮循环
+
+        // async / await 执行顺序
+        // 我们知道 async 会隐式返回一个 Promise 作为结果的函数，那么可以简单理解为：await 后面的函数在执行完毕后，await 会产生一个微任务（Promise.then 是微任务）。但是我们要注意微任务产生的时机，它是执行完 await 后，直接跳出 async 函数，执行其他代码（此处就是协程的运作，A暂停执行，控制权交给B）。其他代码执行完毕后，再回到 async 函数去执行剩下的代码，然后把 await 后面的代码注册到微任务队列中。例如：
+
+        console.log('script start')
+
+        async function async1() {
+            await async2()
+            console.log('async1 end')
+        }
+
+        async function async2() {
+            console.log('async2 end')
+        }
+        async1()
+
+        setTimeout(function () {
+            console.log('setTimeout')
+        }, 0)
+
+        new Promise(resolve => {
+            console.log('Promise')
+            resolve()
+        }).then(function () {
+            console.log('promise1')
+        }).then(function () {
+            console.log('promise2')
+        })
+
+        console.log('script end')
+
+        // 旧版输出如下，但是请继续看完本文下面的注意那里，新版有改动
+        // script start => async2 end => Promise => script end => promise1 => promise2 => async1 end => setTimeout
+        // 分析这段代码：
+
+        // 执行代码，输出 script start
+        // 执行 async1() ，调用了 async2() ，然后输出 async2 end，此时会保留 async1 的上下文，然后跳出 async1
+        // 遇到 setTimeout，产生一个宏任务
+        // 执行 Promise，输出 Promise，遇到 then，产生第一个微任务，继续执行代码，输出 script end
+        // 当前宏任务执行完毕，开始执行当前宏任务产生的微任务，输出 promise1，然后又遇到 then，产生一个新的微任务
+        // 执行微任务，输出 promise2，此时微任务队列已清空，执行权交还给 async1
+        // 执行 await 后的代码，输出 async1 end
+        // 所有微任务队列均已执行完毕，开始执行下一个宏任务，打印 setTimeout
+    </script>
+</body>
+
+</html>
