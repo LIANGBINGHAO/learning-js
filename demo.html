@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .photo-item,
+        .photo-add {
+            position: relative;
+            float: left;
+            width: 120px;
+            height: 90px;
+            margin-bottom: 52px;
+            margin-right: 16px;
+        }
+
+        .item-image {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .uploader-file {
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        body {
+            height: 2000px;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="file" name="image_file" id="image_file">
+    <input type="file" accept="image/*" mutiple="mutiple" capture="camera" />
+    <input class="addPicInput" type="file" ref="uploadFile" @change="fileChange" accept="image/*" multiple>
+    <div class="photo-add">
+        <img class="item-image" src="http://7xn4mw.com1.z0.glb.clouddn.com/16-9-13/13827291.jpg" alt="">
+
+        <input type="file" accept="image/*" name="uploader-input" class="uploader-file" id="upload">
+    </div>
+
+    <div id="box"></div>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">
+    </script>
+    <script>
+        //判断是否是安卓手机
+        function checkPlatform() {
+            if (/android/i.test(navigator.userAgent)) {
+                $("#image_file").attr('accept', 'image/*');
+
+            }
+        }
+        // $(document).ready(function () {
+        //     checkPlatform();
+        // });
+
+        // if (isAndroid && type === 'qq') {
+        //     this.$refs.uploadFile.setAttribute('capture', 'camera');
+        // }
+
+
+
+        document.getElementById('upload').addEventListener('change', function (event) {
+            var $file = event.currentTarget;
+            var formData = new FormData();
+            var file = $file.files;
+            formData = new FormData();
+            formData.append(file[0].name, file[0]);
+            console.log(formData, 'formDate')
+            $.ajax({
+                url: '/upload',
+                type: 'POST',
+                dataType: 'json',
+                data: formData,
+                contentType: false,
+                processData: false
+            })
+                .done(data => {
+                    $('#box').append(`<div class="photo-item">
+            <img class="item-image" width="100%" height="100%" src="${data.url}"/>
+        </div>`);
+                })
+                .fail(data => {
+                    console.log(data);
+                });
+        });
+    </script>
+    <script>
+        var ticking = false; // rAF 触发锁
+
+        function onScroll() {
+            if (!ticking) {
+                requestAnimationFrame(realFunc);
+                console.log(55)
+                ticking = true;
+            }
+        }
+
+        function realFunc() {
+            // do something...
+            console.log("Success");
+            ticking = false;
+        }
+        // 滚动事件监听
+        window.addEventListener('scroll', onScroll, false);
+    </script>
+</body>
+
+</html>
