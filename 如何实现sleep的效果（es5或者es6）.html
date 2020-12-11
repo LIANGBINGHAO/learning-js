@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //(1)while循环的方式
+        function sleep(ms) {
+            var start = Date.now(), expire = start + ms;
+            while (Date.now() < expire) {
+                console.log(1111);
+            }
+            return;
+        }
+        //console.log(Date.now(), 'now')
+        //sleep(1000)
+        //执行sleep(1000)之后，休眠了1000ms之后输出了1111。上述循环的方式缺点很明显，容易造成死循环。
+
+
+        // (2)通过promise来实现
+
+        function sleep(ms) {
+            var temple = new Promise(
+                (resolve) => {
+                    console.log(111);
+                    setTimeout(resolve, ms)
+                }
+            );
+            return temple;
+        }
+        // sleep(500).then(function () {
+        //     console.log(222)
+        // })
+        //先输出了111，延迟500ms后输出222
+
+        //(3)通过async封装
+
+        function sleep(ms) {
+            return new Promise((resolve) => setTimeout(resolve, ms));
+        }
+        async function test() {
+            var temple = await sleep(1000);
+            console.log(11112);
+            return temple;
+        }
+        test();
+        //延迟1000ms输出了11112
+
+
+        //(4).通过generate来实现
+        function* sleep(ms) {
+            yield new Promise(function (resolve, reject) {
+                console.log(111);
+                setTimeout(resolve, ms);
+            })
+        }
+        sleep(500).next().value.then(function () { console.log(2222) })
+    </script>
+</body>
+
+</html>

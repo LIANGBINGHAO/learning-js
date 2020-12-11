@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //去左右空格;
+        function trim(s) {
+            return s.replace(/(^\s*)|(\s*$)/g, "");
+        }
+        var str = "   hhhh     lll    ";
+        console.log('3dd', trim(str), 'str')
+
+
+        var arr = [1, 2, 3];
+        console.log(typeof arr);
+        console.log(arr instanceof Array);
+        console.log(Object.prototype.toString.call(arr))
+    </script>
+</body>
+
+</html>

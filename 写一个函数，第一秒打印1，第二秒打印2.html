@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="babel.min.js"></script>
+    <script src="polyfill.min.js"></script>
+    <script type="text/babel">
+        //let
+        // for (let i = 1; i < 10; i++) {
+        //     setTimeout(() => {
+        //         console.log(i)
+        //     }, 1000 * i);
+        // }
+
+        //闭包
+        for (var i = 1; i < 10; i++) {
+            (function (i) {
+                setTimeout(() => {
+                    console.log(i)
+                }, 1000 * i);
+            })(i);
+        };
+    </script>
+    <script type="text/babel">
+        let promise1 = new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                resolve('ok')
+            }, 1000)
+        })
+        promise1.then(function success(val) {
+            console.log(val, '333')
+        })
+    </script>
+    <script type="text/babel">
+        const name = '张三';//使用新增的关键字：const声明常量        
+        alert(name);
+        console.log(name, 'name')    
+    </script>
+</body>
+
+</html>
