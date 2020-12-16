@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // includes() ：返回布尔值，表示是否找到了参数字符串。
+        // startsWith() ：返回布尔值，表示参数字符串是否在原字符串的头部。
+        // endsWith() ：返回布尔值，表示参数字符串是否在原字符串的尾部
+        //repeat():返回一个新字符串，表示将原字符串重复n次
+
+        let s = 'hello word';
+        console.log(s.includes('e'));
+        console.log(s.startsWith('l'))
+        console.log(s.endsWith('d'))
+        console.log(s.repeat(2))
+        let l = '  hhh   ';
+        console.log(l.trim())
+        console.log('aabbcc'.replace('b', '_'))
+        console.log('aabbcc'.replace(/b/g, '_'))
+    </script>
+</body>
+
+</html>

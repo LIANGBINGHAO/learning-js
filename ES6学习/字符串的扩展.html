@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //2. 字符串的遍历器接口
+        for (let i of 'foo') {
+            console.log(i, 'i')
+        }
+
+        //5.模板字符串
+        //传统的 JavaScript 语言，输出模板通常是这样写的（下面使用了 jQuery 的方法）。
+
+        // $('#result').append(
+        //     'There are <b>' + basket.count + '</b> ' +
+        //     'items in your basket, ' +
+        //     '<em>' + basket.onSale +
+        //     '</em> are on sale!'
+        // );
+        //上面这种写法相当繁琐不方便，ES6 引入了模板字符串解决这个问题。
+
+        // $('#result').append(`
+        //     There are <b>${basket.count}</b> items
+        //     in your basket, <em>${basket.onSale}</em>
+        //     are on sale!
+        // `);
+    </script>
+</body>
+
+</html>
