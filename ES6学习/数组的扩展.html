@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //1.扩展运算符
+        //扩展运算符（spread）是三个点（...）。它好比 rest 参数的逆运算，将一个数组转为用逗号分隔的参数序列。
+
+        console.log(...[1, 2, 3])
+        // 1 2 3
+
+        console.log(1, ...[2, 3, 4], 5)
+        // 1 2 3 4 5
+
+        //该运算符主要用于函数调用。
+
+        function push(array, ...items) {
+            array.push(...items);
+        }
+
+        function add(x, y) {
+            return x + y;
+        }
+
+        const numbers = [4, 38];
+        add(...numbers) // 42
+        //上面代码中，array.push(...items)和add(...numbers)这两行，都是函数的调用，它们都使用了扩展运算符。该运算符将一个数组，变为参数序列。
+
+        // 替代函数的 apply 方法
+        // 由于扩展运算符可以展开数组，所以不再需要apply方法，将数组转为函数的参数了。
+        // ES5 的写法
+
+        // function f(x, y, z) {
+        //     // ...
+        // }
+        // var args = [0, 1, 2];
+        // f.apply(null, args);
+
+        // // ES6的写法
+        // function f(x, y, z) {
+        //     // ...
+        // }
+        // let args = [0, 1, 2];
+        // f(...args);
+
+
+        // // ES5的 写法
+        // var arr1 = [0, 1, 2];
+        // var arr2 = [3, 4, 5];
+        // Array.prototype.push.apply(arr1, arr2);
+
+        // // ES6 的写法
+        // let arr1 = [0, 1, 2];
+        // let arr2 = [3, 4, 5];
+        // arr1.push(...arr2);
+    </script>
+    <script>
+        // 2.Array.from()
+        // Array.from方法用于将两类对象转为真正的数组：类似数组的对象（array - like object）和可遍历（iterable）的对象（包括 ES6 新增的数据结构 Set 和 Map）。
+
+        // 下面是一个类似数组的对象，Array.from将它转为真正的数组。
+        let arrayLike = {
+            '0': 'a',
+            '1': 'b',
+            '2': 'c',
+            length: 3
+        };
+        // ES5的写法
+        let arr1 = [].slice.call(arrayLike);
+        let arr3 = Array.prototype.slice.call(arrayLike);
+        console.log(arr1, 'arr1')
+        console.log(arr3, 'arr3')
+        //ES6的写法
+        let arr2 = Array.from(arrayLike);
+        console.log(arr2, 'arr2')
+
+        // 实际应用中，常见的类似数组的对象是 DOM 操作返回的 NodeList 集合，以及函数内部的arguments对象。Array.from都可以将它们转为真正的数组。
+        //只要是部署了 Iterator 接口的数据结构，Array.from都能将其转为数组。
+
+        Array.from('hello')
+        // ['h', 'e', 'l', 'l', 'o']
+
+        let namesSet = new Set(['a', 'b'])
+        Array.from(namesSet) // ['a', 'b']
+
+
+        // Array.from还可以接受第二个参数，作用类似于数组的map方法，用来对每个元素进行处理，将处理后的值放入返回的数组。
+        Array.from(arrayLike, x => x * x);
+        // 等同于
+        Array.from(arrayLike).map(x => x * x);
+
+        Array.from([1, 2, 3], (x) => x * x)
+        // [1, 4, 9]
+    </script>
+    <script>
+        // 3.Array.of()
+        // Array.of方法用于将一组值，转换为数组。
+
+        Array.of(3, 11, 8) // [3,11,8]
+        Array.of(3) // [3]
+        Array.of(3).length // 1
+
+        //这个方法的主要目的，是弥补数组构造函数Array()的不足。因为参数个数的不同，会导致Array()的行为有差异。
+
+        Array() // []
+        Array(3) // [, , ,]
+        Array(3, 11, 8) // [3, 11, 8]
+        // 上面代码中，Array方法没有参数、一个参数、三个参数时，返回结果都不一样。只有当参数个数不少于 2 个时，Array()才会返回由参数组成的新数组。参数个数只有一个时，实际上是指定数组的长度。
+
+        // Array.of基本上可以用来替代Array()或new Array() ，并且不存在由于参数不同而导致的重载。它的行为非常统一。
+
+        Array.of() // []
+        Array.of(undefined) // [undefined]
+        Array.of(1) // [1]
+        Array.of(1, 2) // [1, 2]
+        // Array.of总是返回参数值组成的数组。如果没有参数，就返回一个空数组。
+
+        // Array.of方法可以用下面的代码模拟实现。
+
+        function ArrayOf() {
+            return [].slice.call(arguments);
+        }
+    </script>
+    <script>
+        // 4.数组实例的 copyWithin()
+        // 数组实例的copyWithin()方法，在当前数组内部，将指定位置的成员复制到其他位置（会覆盖原有成员），然后返回当前数组。也就是说，使用这个方法，会修改当前数组。
+
+        // Array.prototype.copyWithin(target, start = 0, end = this.length)
+        // 它接受三个参数。
+
+        // target（必需）：从该位置开始替换数据。如果为负值，表示倒数。
+        // start（可选）：从该位置开始读取数据，默认为 0。如果为负值，表示从末尾开始计算。
+        // end（可选）：到该位置前停止读取数据，默认等于数组长度。如果为负值，表示从末尾开始计算。
+        // 这三个参数都应该是数值，如果不是，会自动转为数值。
+
+        [1, 2, 3, 4, 5].copyWithin(0, 3)
+        // [4, 5, 3, 4, 5]
+        // 上面代码表示将从 3 号位直到数组结束的成员（4 和 5），复制到从 0 号位开始的位置，结果覆盖了原来的 1 和 2。
+    </script>
+    <script>
+        // 5.数组实例的 find() 和 findIndex()
+        // 数组实例的find方法，用于找出第一个符合条件的数组成员。
+        // 它的参数是一个回调函数，所有数组成员依次执行该回调函数，直到找出第一个返回值为true的成员，
+        // 然后返回该成员。如果没有符合条件的成员，则返回undefined
+
+        [1, 4, -5, 10].find((n) => n < 0)
+        // -5
+        // 上面代码找出数组中第一个小于 0 的成员。
+
+        [1, 5, 10, 15].find(function (value, index, arr) {
+            return value > 9;
+        }) // 10
+        // 上面代码中，find方法的回调函数可以接受三个参数，依次为当前的值、当前的位置和原数组。
+
+        // 数组实例的findIndex方法的用法与find方法非常类似，返回第一个符合条件的数组成员的位置，如果所有成员都不符合条件，则返回 - 1。
+
+        [1, 5, 10, 15].findIndex(function (value, index, arr) {
+            return value > 9;
+        }) // 2
+        // 这两个方法都可以接受第二个参数，用来绑定回调函数的this对象。
+
+        function f(v) {
+            return v > this.age;
+        }
+        let person = { name: 'John', age: 20 };
+        [10, 12, 26, 15].find(f, person);    // 26
+        // 上面的代码中，find函数接收了第二个参数person对象，回调函数中的this对象指向person对象。
+
+        // 另外，这两个方法都可以发现NaN，弥补了数组的indexOf方法的不足。
+
+        [NaN].indexOf(NaN)
+        // -1
+
+        [NaN].findIndex(y => Object.is(NaN, y))
+        // 0
+        // 上面代码中，indexOf方法无法识别数组的NaN成员，但是findIndex方法可以借助Object.is方法做到。
+    </script>
+</body>
+
+</html>
