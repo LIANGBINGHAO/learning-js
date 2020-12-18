@@ -8,7 +8,15 @@
 </head>
 
 <body>
+    <script>
+        let propKey = 'foo';
 
+        let obj = {
+            [propKey]: true,
+            ['a' + 'bc']: 123
+        };
+        console.log(obj, 'obj')
+    </script>
 </body>
 
 </html>
