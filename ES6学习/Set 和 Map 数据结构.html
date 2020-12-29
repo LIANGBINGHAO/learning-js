@@ -71,6 +71,30 @@
         // 3.Map
         // 含义和基本用法
         // JavaScript 的对象（Object），本质上是键值对的集合（Hash 结构），但是传统上只能用字符串当作键。这给它的使用带来了很大的限制。
+        const m = new Map()
+        const o = { p: 'haha' }
+        m.set(o, 'content')
+        console.log(m.get(o))	// content
+
+        m.has(o)	// true
+        // m.delete(o)	// true
+        // m.has(o)	// false
+        console.log(m, 'm')
+        for (let value of m.keys()) {
+            console.log(value);
+        }
+        for (let value of m.values()) {
+            console.log(value)
+        }
+        for (let item of m.entries()) {
+            console.log(item[0], item[1], item)
+        }
+        for (let [key, value] of m.entries()) {
+            console.log(key, value, 'of')
+        }
+        for (let [key, value] of m) {
+            console.log(key, value, 'of2')
+        }
     </script>
 </body>
 
