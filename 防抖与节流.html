@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var nav = [
+            {
+                "term_id": 2,
+                "name": "建筑设计",
+                "slug": "jz",
+                "term_group": 0,
+                "term_taxonomy_id": 2,
+                "taxonomy": "category",
+                "description": "ARCHITECTURAL DESIGN",
+                "parent": 14,
+                "count": 0,
+                "filter": "raw",
+                "term_order": "2",
+                "order": "0",
+                "cat_ID": 2,
+                "category_count": 0,
+                "category_description": "ARCHITECTURAL DESIGN",
+                "cat_name": "建筑设计",
+                "category_nicename": "jz",
+                "category_parent": 14,
+                "nav_image": "https://sites.dcampus.com/gzcj/wp-content/uploads/sites/14/2020/12/jz.png"
+            },
+            {
+                "term_id": 7,
+                "name": "城市综合体",
+                "slug": "cszht",
+                "term_group": 0,
+                "term_taxonomy_id": 7,
+                "taxonomy": "category",
+                "description": "",
+                "parent": 2,
+                "count": 6,
+                "filter": "raw",
+                "term_order": "3",
+                "order": "0",
+                "cat_ID": 7,
+                "category_count": 6,
+                "category_description": "",
+                "cat_name": "城市综合体",
+                "category_nicename": "cszht",
+                "category_parent": 2,
+                "nav_image": false
+            },
+            {
+                "term_id": 8,
+                "name": "办公建筑",
+                "slug": "bgjz",
+                "term_group": 0,
+                "term_taxonomy_id": 8,
+                "taxonomy": "category",
+                "description": "",
+                "parent": 2,
+                "count": 6,
+                "filter": "raw",
+                "term_order": "4",
+                "order": "0",
+                "cat_ID": 8,
+                "category_count": 6,
+                "category_description": "",
+                "cat_name": "办公建筑",
+                "category_nicename": "bgjz",
+                "category_parent": 2,
+                "nav_image": false
+            },
+            {
+                "term_id": 9,
+                "name": "文教及医疗建筑",
+                "slug": "wjjyljz",
+                "term_group": 0,
+                "term_taxonomy_id": 9,
+                "taxonomy": "category",
+                "description": "",
+                "parent": 2,
+                "count": 6,
+                "filter": "raw",
+                "term_order": "5",
+                "order": "0",
+                "cat_ID": 9,
+                "category_count": 6,
+                "category_description": "",
+                "cat_name": "文教及医疗建筑",
+                "category_nicename": "wjjyljz",
+                "category_parent": 2,
+                "nav_image": false
+            },
+            {
+                "term_id": 10,
+                "name": "休闲度假类建筑",
+                "slug": "xxdjljz",
+                "term_group": 0,
+                "term_taxonomy_id": 10,
+                "taxonomy": "category",
+                "description": "",
+                "parent": 2,
+                "count": 7,
+                "filter": "raw",
+                "term_order": "6",
+                "order": "0",
+                "cat_ID": 10,
+                "category_count": 7,
+                "category_description": "",
+                "cat_name": "休闲度假类建筑",
+                "category_nicename": "xxdjljz",
+                "category_parent": 2,
+                "nav_image": false
+            },
+            {
+                "term_id": 11,
+                "name": "居住建筑",
+                "slug": "jzjz",
+                "term_group": 0,
+                "term_taxonomy_id": 11,
+                "taxonomy": "category",
+                "description": "",
+                "parent": 2,
+                "count": 10,
+                "filter": "raw",
+                "term_order": "7",
+                "order": "0",
+                "cat_ID": 11,
+                "category_count": 10,
+                "category_description": "",
+                "cat_name": "居住建筑",
+                "category_nicename": "jzjz",
+                "category_parent": 2,
+                "nav_image": false
+            },
+            {
+                "term_id": 3,
+                "name": "景观设计",
+                "slug": "jg",
+                "term_group": 0,
+                "term_taxonomy_id": 3,
+                "taxonomy": "category",
+                "description": "LANDSCAPE DESIGN",
+                "parent": 14,
+                "count": 11,
+                "filter": "raw",
+                "term_order": "8",
+                "order": "0",
+                "cat_ID": 3,
+                "category_count": 11,
+                "category_description": "LANDSCAPE DESIGN",
+                "cat_name": "景观设计",
+                "category_nicename": "jg",
+                "category_parent": 14,
+                "nav_image": "https://sites.dcampus.com/gzcj/wp-content/uploads/sites/14/2021/01/DJI_0702-1_WPS图片-scaled.jpg"
+            },
+            {
+                "term_id": 4,
+                "name": "装饰设计",
+                "slug": "zs",
+                "term_group": 0,
+                "term_taxonomy_id": 4,
+                "taxonomy": "category",
+                "description": "DECORATION DESIGN",
+                "parent": 14,
+                "count": 15,
+                "filter": "raw",
+                "term_order": "9",
+                "order": "0",
+                "cat_ID": 4,
+                "category_count": 15,
+                "category_description": "DECORATION DESIGN",
+                "cat_name": "装饰设计",
+                "category_nicename": "zs",
+                "category_parent": 14,
+                "nav_image": "https://sites.dcampus.com/gzcj/wp-content/uploads/sites/14/2021/01/be400dbbb67a1e0dcda8be7d2d9210b_WPS图片-scaled.jpg"
+            },
+            {
+                "term_id": 5,
+                "name": "规划设计",
+                "slug": "gh",
+                "term_group": 0,
+                "term_taxonomy_id": 5,
+                "taxonomy": "category",
+                "description": "PLANNING AND DESIGN",
+                "parent": 14,
+                "count": 7,
+                "filter": "raw",
+                "term_order": "10",
+                "order": "0",
+                "cat_ID": 5,
+                "category_count": 7,
+                "category_description": "PLANNING AND DESIGN",
+                "cat_name": "规划设计",
+                "category_nicename": "gh",
+                "category_parent": 14,
+                "nav_image": "https://sites.dcampus.com/gzcj/wp-content/uploads/sites/14/2020/12/特色小镇4.jpg"
+            },
+            {
+                "term_id": 6,
+                "name": "TOD项目",
+                "slug": "tod",
+                "term_group": 0,
+                "term_taxonomy_id": 6,
+                "taxonomy": "category",
+                "description": "TRANSIT-ORIENTED DEVELOPMENT PROJECT",
+                "parent": 14,
+                "count": 13,
+                "filter": "raw",
+                "term_order": "11",
+                "order": "0",
+                "cat_ID": 6,
+                "category_count": 13,
+                "category_description": "TRANSIT-ORIENTED DEVELOPMENT PROJECT",
+                "cat_name": "TOD项目",
+                "category_nicename": "tod",
+                "category_parent": 14,
+                "nav_image": "https://sites.dcampus.com/gzcj/wp-content/uploads/sites/14/2021/01/IMG_6325_wps图片-scaled.jpg"
+            },
+            {
+                "term_id": 12,
+                "name": "城市更新项目",
+                "slug": "csgxxm",
+                "term_group": 0,
+                "term_taxonomy_id": 12,
+                "taxonomy": "category",
+                "description": "CITY UPDATE PROJECT",
+                "parent": 14,
+                "count": 7,
+                "filter": "raw",
+                "term_order": "12",
+                "order": "0",
+                "cat_ID": 12,
+                "category_count": 7,
+                "category_description": "CITY UPDATE PROJECT",
+                "cat_name": "城市更新项目",
+                "category_nicename": "csgxxm",
+                "category_parent": 14,
+                "nav_image": "https://sites.dcampus.com/gzcj/wp-content/uploads/sites/14/2021/01/合并版092340_wps图片_WPS图片-1.jpg"
+            },
+            {
+                "term_id": 13,
+                "name": "康养项目",
+                "slug": "kyxm",
+                "term_group": 0,
+                "term_taxonomy_id": 13,
+                "taxonomy": "category",
+                "description": "HEALTH AND RETIRE PROJECT",
+                "parent": 14,
+                "count": 4,
+                "filter": "raw",
+                "term_order": "13",
+                "order": "0",
+                "cat_ID": 13,
+                "category_count": 4,
+                "category_description": "HEALTH AND RETIRE PROJECT",
+                "cat_name": "康养项目",
+                "category_nicename": "kyxm",
+                "category_parent": 14,
+                "nav_image": "https://sites.dcampus.com/gzcj/wp-content/uploads/sites/14/2020/12/ky.jpg"
+            }
+        ];
+        var topId = 14;
+        console.log(nav, 'nav')
+
+        var data = [
+            { id: 1, parentId: 0, name: "一级菜单A", rank: 1 },
+            { id: 2, parentId: 0, name: "一级菜单B", rank: 1 },
+            { id: 3, parentId: 0, name: "一级菜单C", rank: 1 },
+            { id: 4, parentId: 1, name: "二级菜单A-A", rank: 2 },
+            { id: 5, parentId: 1, name: "二级菜单A-B", rank: 2 },
+            { id: 6, parentId: 2, name: "二级菜单B-A", rank: 2 },
+            { id: 7, parentId: 4, name: "三级菜单A-A-A", rank: 3 },
+            { id: 8, parentId: 7, name: "四级菜单A-A-A-A", rank: 4 },
+            { id: 9, parentId: 8, name: "五级菜单A-A-A-A-A", rank: 5 },
+            { id: 10, parentId: 9, name: "六级菜单A-A-A-A-A-A", rank: 6 },
+            { id: 11, parentId: 10, name: "七级菜单A-A-A-A-A-A-A", rank: 7 },
+            { id: 12, parentId: 11, name: "八级菜单A-A-A-A-A-A-A-A", rank: 8 },
+            { id: 13, parentId: 12, name: "九级菜单A-A-A-A-A-A-A-A-A", rank: 9 },
+            { id: 14, parentId: 13, name: "十级菜单A-A-A-A-A-A-A-A-A-A", rank: 10 },
+        ]
+
+        function setTreeData(data) {
+            let tree = data.filter((father) => {              //循环所有项
+                let branchArr = data.filter((child) => {
+                    return father.id == child.parentId      //返回每一项的子级数组
+                });
+                if (branchArr.length > 0) {
+                    father.children = branchArr;    //如果存在子级，则给父级添加一个children属性，并赋值
+                }
+                return father.parentId == 0;      //返回第一层
+            });
+            return tree     //返回树形数据
+        }
+        console.log(setTreeData(data), 'nav222')
+
+        function setTreeData2(data) {
+            let tree = data.filter((father) => {              //循环所有项
+                let branchArr = data.filter((child) => {
+                    return father.cat_ID == child.category_parent      //返回每一项的子级数组
+                });
+                if (branchArr.length > 0) {
+                    father.children = branchArr;    //如果存在子级，则给父级添加一个children属性，并赋值
+                }
+                return father.category_parent == 14;      //返回第一层
+            });
+            return tree     //返回树形数据
+        }
+        console.log(setTreeData2(nav), 'nav333')
+
+        //防抖（操作停止2s后执行）
+        function debounce(fn, delay) {
+            var timer = null;
+            clearTimeout(timer);
+            return function () {
+                if (timer) {
+                    clearTimeout(timer)
+                }
+                timer = setTimeout(fn, delay)
+            }
+        }
+        function test() {
+            console.log('test')
+        }
+        //window.onresize = debounce(test, 300);
+
+        //节流（一段时间内执行一次）
+        function throttle(fn, delay) {
+            var timer = null;
+            var falg = true;
+            clearTimeout(timer);
+            return function () {
+                if (!falg) {
+                    return false
+                }
+                falg = false;
+                timer = setTimeout(function () {
+                    fn();
+                    falg = true;
+                }, delay)
+            }
+        }
+        window.onresize = throttle(test, 3000);
+
+        // 节流throttle代码（时间戳+定时器）：
+        function throttle2(func, delay) {
+            var timer = null;
+            var startTime = Date.now();
+            return function () {
+                var curTime = Date.now();
+                var remaining = delay - (curTime - startTime);
+                var context = this;
+                var args = arguments;
+                clearTimeout(timer);
+                if (remaining <= 0) {
+                    func.apply(context, args);
+                    startTime = Date.now();
+                } else {
+                    timer = setTimeout(func, remaining);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
