@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var arr = ['12', '32', '89', '12', '12', '78', '12', '32'];
+
+        //第一种
+        function unique1(arr) {
+            var n = [];
+            for (var i = 0; i < arr.length; i++) {
+                if (n.indexOf(arr[i]) < 0) {
+                    n.push(arr[i])
+                }
+            }
+            return n;
+        }
+        console.log(unique1(arr), 'unique1')
+
+        //第二种
+        arr = [...new Set(arr)];
+        console.log(arr, 'arr')
+    </script>
+</body>
+
+</html>
